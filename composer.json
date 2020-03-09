@@ -1,0 +1,40 @@
+{
+	"name": "eastslopestudio/craft3-sites-field",
+	"description": "Craft 3 Field type that allows the selection of Craft sites.",
+	"type": "craft-plugin",
+	"version": "1.0.0",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "East Slope Studio",
+			"email": "ryan@eastslope.studio",
+			"homepage": "https://eastslope.studio"
+		}
+	],
+	"keywords": [
+		"craft",
+		"cms",
+		"craftcms",
+		"sites",
+		"field"
+	],
+	"support": {
+		"email": "ryan@eastslope.studio"
+	},
+	"require": {
+		"craftcms/cms": "^3.0.0-RC1"
+	},
+	"autoload": {
+		"psr-4": {
+			"eastslopestudio\\sitesfield\\": "src/"
+		}
+	},
+	"extra": {
+		"name": "Sites Field",
+		"handle": "sites-field",
+		"schemaVersion": "0.0.1",
+		"hasCpSettings": false,
+		"hasCpSection": false,
+		"class": "eastslopestudio\\sitesfield\\Sites"
+	}
+}

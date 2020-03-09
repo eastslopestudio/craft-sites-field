@@ -1,0 +1,18 @@
+{% import '_includes/forms' as forms %}
+
+{{ forms.checkboxGroupField({
+	label : 'Allowed Sites' | t('sites-field'),
+	instructions : 'The sites that may be chosen for this field.' | t('sites-field'),
+	id : 'whitelistedSites',
+	name : 'whitelistedSites',
+	values: field.whitelistedSites,
+	options : sites
+}) }}
+
+{{ forms.checkboxField({
+	label : 'Allow Multiple' | t('sites-field'),
+	instructions : 'If checked, the user can select multiple sites, otherwise they can only select one.' | t('sites-field'),
+	id : 'allowMultiple',
+	name : 'allowMultiple',
+	checked: field.allowMultiple
+}) }}

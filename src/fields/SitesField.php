@@ -174,7 +174,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 */
 	public function normalizeValue ($value, ElementInterface $element = null)
 	{
-		return (is_array($value)) ? $value : json_decode($value);
+		return (is_array($value)) ? $value : (string) json_decode($value);
 	}
 
 }

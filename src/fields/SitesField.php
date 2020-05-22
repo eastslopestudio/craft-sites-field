@@ -93,7 +93,6 @@ class SitesField extends Field implements PreviewableFieldInterface
 	public function defineRules(): array
 	{
 		$rules = parent::rules();
-
 		$rules[] = [['whitelistedSites'], 'validateSitesWhitelist', 'skipOnEmpty' => false];
 
 		return $rules;

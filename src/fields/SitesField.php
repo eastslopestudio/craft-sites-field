@@ -12,6 +12,7 @@ use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
 use craft\validators\ArrayValidator;
 
+use yii\base\InvalidConfigException;
 use yii\db\Schema;
 
 /**
@@ -89,7 +90,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 * @inheritdoc
 	 * @see craft\base\Field
 	 */
-	public function rules(): array
+	public function defineRules(): array
 	{
 		$rules = parent::rules();
 		
@@ -125,9 +126,14 @@ class SitesField extends Field implements PreviewableFieldInterface
 	/**
 	 * @inheritdoc
 	 * @see craft\base\Field
+     * @throws InvalidConfigException
 	 */
 	public function getInputHtml($value, ElementInterface $element = null): string
 	{
+        if (empty($this->whitelistedSites)) {
+            throw new InvalidConfigException('At least one whitelisted site is required.');
+        }
+
 		$sites = $this->getSites(); // Get all sites available to the current user.
         if($this->whitelistedSites == '*') {
             $whitelist = array_keys($sites);
@@ -201,7 +207,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 */
 	public function normalizeValue ($value, ElementInterface $element = null)
 	{
-		return (is_array($value)) ? $value : json_decode($value);
+		return (is_array($value)) ? $value : (string) json_decode($value);
 	}
 
 }

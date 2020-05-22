@@ -207,7 +207,10 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 */
 	public function normalizeValue ($value, ElementInterface $element = null)
 	{
-		return (is_array($value)) ? $value : (string) json_decode($value);
+        if($this->allowMultiple && is_string($value)) {
+            $value = json_decode($value);
+        }
+        return $value;
 	}
 
 }

@@ -54,7 +54,8 @@ class SitesField extends Field implements PreviewableFieldInterface
      */
     public function __construct($config = [])
     {
-        if (!array_key_exists('whitelistedSites', $config) || !is_array($config['whitelistedSites'])) {
+        if (!array_key_exists('whitelistedSites', $config)
+            || ($config['whitelistedSites'] != '*' && !is_array($config['whitelistedSites']))) {
             $config['whitelistedSites'] = [];
         }
 
@@ -91,10 +92,9 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 */
 	public function defineRules(): array
 	{
-		$rules = parent::defineRules();
-
-        $rules[] = [['whitelistedSites'], ArrayValidator::class, 'min' => 1, 'skipOnEmpty' => false];
-		$rules[] = [['whitelistedSites'], 'validateSitesWhitelist'];
+		$rules = parent::rules();
+		
+		$rules[] = [['whitelistedSites'], 'validateSitesWhitelist', 'skipOnEmpty' => false];
 
 		return $rules;
 	}
@@ -105,6 +105,14 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 * @return void
 	 */
 	public function validateSitesWhitelist(string $attribute) {
+        if($this->whitelistedSites == '*') {
+            return;
+        }
+
+        $av = new ArrayValidator(['min' => 1, 'skipOnEmpty' => false]);
+        if (!$av->validate($this->whitelistedSites, $error)) {
+            $this->addError($attribute, Craft::t('sites-field', $error));
+        }
 
 		$sites = $this->getSites();
 
@@ -127,8 +135,13 @@ class SitesField extends Field implements PreviewableFieldInterface
         }
 
 		$sites = $this->getSites(); // Get all sites available to the current user.
-		$whitelist = array_flip($this->whitelistedSites); // Get all whitelisted sites.
-		$whitelist[''] = true; // Add a blank entry in, in case the field's options allow a 'None' selection.
+        if($this->whitelistedSites == '*') {
+            $whitelist = array_keys($sites);
+        } else {
+            $whitelist = $this->whitelistedSites; // Get all whitelisted sites.
+        }
+        $whitelist[''] = ''; // Add a blank entry in, in case the field's options allow a 'None' selection.
+        $whitelist = array_flip($whitelist);
 		if (!$this->allowMultiple && !$this->required) { // Add a 'None' option specifically for optional, single value fields.
 			$sites = ['' => Craft::t('app', 'None')] + $sites;
 		}

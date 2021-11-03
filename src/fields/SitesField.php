@@ -198,7 +198,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	{
 		$sites = [];
 		foreach (Craft::$app->getSites()->getAllSites() as $site) {
-			$sites[$site->id] = Craft::t('site', $site->name);
+			$sites[$site->uid] = Craft::t('site', $site->name);
 		}
 		return $sites;
 	}

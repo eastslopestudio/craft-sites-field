@@ -90,7 +90,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 * @inheritdoc
 	 * @see craft\base\Field
 	 */
-	public function defineRules(): array
+	public function rules(): array
 	{
 		$rules = parent::rules();
 		$rules[] = [['whitelistedSites'], 'validateSitesWhitelist', 'skipOnEmpty' => false];

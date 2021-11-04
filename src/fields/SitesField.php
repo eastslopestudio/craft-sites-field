@@ -68,7 +68,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 */
 	public function getContentColumnType(): string
 	{
-		return Schema::TYPE_STRING;
+		return Schema::TYPE_TEXT;
 	}
 
 	/**

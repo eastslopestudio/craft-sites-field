@@ -68,7 +68,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 */
 	public function getContentColumnType(): string
 	{
-		return Schema::TYPE_STRING;
+		return Schema::TYPE_TEXT;
 	}
 
 	/**
@@ -92,7 +92,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	 */
 	public function defineRules(): array
 	{
-		$rules = parent::rules();
+		$rules = parent::defineRules();
 		$rules[] = [['whitelistedSites'], 'validateSitesWhitelist', 'skipOnEmpty' => false];
 
 		return $rules;
@@ -198,7 +198,7 @@ class SitesField extends Field implements PreviewableFieldInterface
 	{
 		$sites = [];
 		foreach (Craft::$app->getSites()->getAllSites() as $site) {
-			$sites[$site->id] = Craft::t('site', $site->name);
+			$sites[$site->uid] = Craft::t('site', $site->name);
 		}
 		return $sites;
 	}

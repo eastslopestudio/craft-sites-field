@@ -2,7 +2,7 @@
 	"name": "eastslopestudio/craft3-sites-field",
 	"description": "Craft 3 Field type that allows the selection of Craft sites.",
 	"type": "craft-plugin",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"license": "MIT",
 	"authors": [
 		{

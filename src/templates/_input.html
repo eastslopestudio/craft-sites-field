@@ -2,7 +2,7 @@
 
 {% if field.allowMultiple %}
 <fieldset class="checkbox-group">
-	<input type="hidden" name="{{ field.handle }}" value="">	
+	<input type="hidden" name="{{ field.handle }}" value="">
 	<div>
 		{% set siteIds = siteIds ?? craft.app.sites.getEditableSiteIds() %}
 		{% if siteIds|length %}

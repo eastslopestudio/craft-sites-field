@@ -1,93 +1,22 @@
 {% import '_includes/forms' as forms %}
 
 {% if field.allowMultiple %}
-<fieldset class="checkbox-group">
-	<input type="hidden" name="field.handle" value="">
-	<div>
-		{% set siteIds = siteIds ?? craft.app.sites.getEditableSiteIds() %}
-		{% if siteIds|length %}
-		{% if selectedSiteId is not defined %}
-		{% if craft.app.sites.currentSite.id in siteIds %}
-		{% set selectedSiteId = craft.app.sites.currentSite.id %}
-		{% else %}
-		{% set selectedSiteId = siteIds|first %}
-		{% endif %}
-		{% endif %}
-		{% set groups = craft.app.sites.getAllGroups() %}
-
-		{% for group in groups %}
-		{% set groupSiteIds = group.getSiteIds()|intersect(siteIds) %}
-		{% if groupSiteIds %}
-		{% if groups|length > 1 %}<h6>{{ group.name|t('site') }}</h6>{% endif %}
-		<ul class="padded">
-			{% for siteId in groupSiteIds %}
-			{% set site = craft.app.sites.getSiteById(siteId) %}
-			{% set url = urlFormat is defined ? url(urlFormat|replace({
-			'{id}': siteId,
-			'{handle}': site.handle
-			})) %}
-			{% if site.uid in sites|keys%}
-			<li>
-				<input type="checkbox"
-					   class="checkbox"
-					   id="{{ site.id }}"
-					   name="{{ field.handle }}[]"
-					   value="{{ site.uid }}"
-					   {% if site.uid in value %}checked{% endif %}>
-				<label for="{{ site.id }}">{{ site.name|t('site') }}</label>
-			</li>
-			{% endif %}
-			{% endfor %}
-		</ul>
-		{% endif %}
-		{% endfor %}
-		{% endif %}
-	</div>
-</fieldset>
+	{{ forms.checkboxGroup({
+		id : field.handle,
+		name : field.handle,
+		values: value,
+		placeholder: 'Choose Sites...' | t('sites-field'),
+		options: sites
+	}) }}
 {% else %}
-<div class="select">
-	<select id="{{ field.handle }}" name="{{ field.handle }}">
-		{% set siteIds = siteIds ?? craft.app.sites.getEditableSiteIds() %}
-		{% if siteIds|length %}
-		{% if selectedSiteId is not defined %}
-		{% if craft.app.sites.currentSite.id in siteIds %}
-		{% set selectedSiteId = craft.app.sites.currentSite.id %}
-		{% else %}
-		{% set selectedSiteId = siteIds|first %}
-		{% endif %}
-		{% endif %}
-		{% set groups = craft.app.sites.getAllGroups() %}
-
-		{% for group in groups %}
-		{% set groupSiteIds = group.getSiteIds()|intersect(siteIds) %}
-		{% if groupSiteIds %}
-		{% if groups|length > 1 %} <optgroup label="{{ group.name|t('site') }}">{% endif %}
-
-		{% for siteId in groupSiteIds %}
-		{% set site = craft.app.sites.getSiteById(siteId) %}
-		{% set url = urlFormat is defined ? url(urlFormat|replace({
-		'{id}': siteId,
-		'{handle}': site.handle
-		})) %}
-		{% if site.uid in sites|keys%}
-
-		<option id="{{ site.id }}"
-				name="{{ field.handle }}[]"
-				value="{{ site.uid }}"
-				{% if site.uid in value %}selected{% endif %}>{{ site.name|t('site') }}</option>
-
-		{% endif %}
-		{% endfor %}
-
-		{% if groups|length > 1 %} </optgroup>{% endif %}
-
-		{% endif %}
-		{% endfor %}
-		{% endif %}
-	</select>
-</div>
-{% if value is iterable %}
-<p class="warning">{{ "Multiple sites selected, but field only allows one site. Selecting a new
-	value will clear the existing multiple sites selection." | t('sites-field') }}</p>
-{% endif %}
+	{{ forms.select({
+		id : field.handle,
+		name : field.handle,
+		value: value,
+		placeholder: 'Choose a Site...' | t('sites-field'),
+		options: sites
+	}) }}
+	{% if value is iterable %}
+		<p class="warning">{{ "Multiple sites selected, but field only allows one site. Selecting a new value will clear the existing multiple sites selection." | t('sites-field') }}</p>
+	{% endif %}
 {% endif %}

@@ -1,4 +1,4 @@
-# Sites Field for Craft 3
+# Sites Field
 
 This plugin provides a field type for choosing sites. Entries using this field can then access the site ID in their templates.
 

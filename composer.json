@@ -1,5 +1,5 @@
 {
-	"name": "eastslopestudio/craft3-sites-field",
+	"name": "eastslopestudio/craft-sites-field",
 	"description": "Craft 3 Field type that allows the selection of Craft sites.",
 	"type": "craft-plugin",
 	"version": "1.0.4",

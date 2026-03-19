@@ -6,4 +6,4 @@ This plugin provides a field type for choosing sites. Entries using this field c
 
 ## Requirements
 
-* Craft CMS 3.0.0-RC1 or above
+* Craft CMS 4.* | 5.*
